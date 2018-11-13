@@ -1,12 +1,15 @@
 const MongoClient = require('mongodb').MongoClient;
 
+// In mongodb we don't need to create database to use it
+
+//  connects to Todo database hosted in localhost: 27017
 MongoClient.connect('mongodb://localhost:27017/TodoApp', (err,db)=>{
 	if (err) {
 		return console.log("Unable to connect to MongoDB server");
 	}
 
 	console.log("Connected to MongoDB server");
-// Insert
+// No need to create a collection to use item(index: unsigned long)
 	// db.collection('Todos').insertOne({
 	// 	text: 'Something to do',
 	// 	completed: false
