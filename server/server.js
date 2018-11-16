@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-
+const {ObjectId} = require('mongodb');
 
 const {mongoose} = require('./db/mongoose.js');
 const {Todo} = require('./models/todo.js');
@@ -30,6 +30,22 @@ app.get('/todos', (req,res)=>{
 		res.status(400).send(err);	
 	});
 });
+
+app.get('/todos/:id', (req,res)=>{
+	var {id} = req.params;	//req.params is used to access data sent from url (url parameters)
+	if(!ObjectId.isValid(id)){
+		return res.status(404).send();
+	}
+	
+	Todo.findById(id).then((todo)=>{
+		if(!todo){
+			return res.status(400).send("id not found");
+		}
+		
+		res.send({todo});
+	});
+
+})
 
 module.exports = {app};
 
