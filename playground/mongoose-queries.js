@@ -1,4 +1,4 @@
-const {ObjectId} = require('mongodb');
+const {ObjectID} = require('mongodb');
 const {mongoose} = require('./../server/db/mongoose');
 const {Todo} = require('./../server/models/todo');
 const {User} = require('./../server/models/users');
@@ -31,7 +31,7 @@ Todo.findById(id).then((todo)=>{
 
 var id = '5beabcead8310d8435de6f70';
 
-if(!ObjectId.isValid(id)){				
+if(!ObjectID.isValid(id)){				
 	console.log("ID not valid");		//This can be done in catch block
 }
 
