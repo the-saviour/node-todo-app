@@ -1,16 +1,13 @@
 const expect = require ('expect');
 const request = require('supertest');
-const {ObjectId} = require('mongodb');
 
 const {app} = require('./../server');
 const {Todo} = require('./../models/todo');
 
 //dummy todos to test GET request
 const todos = [{
-	_id : new ObjectId(),
 	text: 'First test todo'
 }, {
-	_id : new ObjectId(),
 	text: 'Second test todo'
 }];
 
@@ -21,9 +18,9 @@ const todos = [{
 
 // Adding testing lifecycle
 beforeEach((done)=>{
-	Todo.remove({}).then(()=>{				//makes sure database is empty before every test
+	Todo.remove({}).then(()=>{
 		return Todo.insertMany(todos);
-	}).then(()=>done()); 
+	}).then(()=>done()); //makes sure database is empty before every test
 });
 
 describe('POST /todos', ()=>{
@@ -85,33 +82,3 @@ describe('GET /todos', ()=>{
 			.end(done);
 	});
 });
-
-describe('GET/todo/:id', ()=>{
-	it('should return todo doc', (done)=>{
-		request(app)
-			.get(`/todos/${todos[0]._id.toHexString()}`)
-			.expect(200)
-			.expect((res)=>{
-				expect(res.body.todo.text).toBe(todos[0].text);
-			})
-			.end(done);
-
-	});
-
-	it('should return 404 if todo not found', (done)=>{
-		var id = new ObjectId();
-		request(app)
-			.get(`/todos/${id.toHexString()}`)
-			.expect(404)
-			.end(done);
-	});
-
-	it('should return 404 for non-object ids',(done)=>{
-		request(app)
-			.get('/todos/idsg')
-			.expect(404)
-			.end(done);
-	});
-
-});
-
