@@ -7,7 +7,7 @@ const {Todo} = require('./models/todo.js');
 const {User} = require('./models/users.js');
 
 var app= express();
-
+const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 //Handling post request. In this case we use postman to make post request
 app.post('/todos', (req,res)=>{
@@ -49,6 +49,6 @@ app.get('/todos/:id', (req,res)=>{
 
 module.exports = {app};
 
-app.listen(3000, ()=>{
-	console.log("Started in port 3000");
+app.listen(port, ()=>{
+	console.log(`Started in port ${port}`);
 });
