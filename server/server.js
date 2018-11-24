@@ -39,13 +39,37 @@ app.get('/todos/:id', (req,res)=>{
 	
 	Todo.findById(id).then((todo)=>{
 		if(!todo){
-			return res.status(400).send("id not found");
+			return res.status(404).send("id not found");
 		}
 		
 		res.send({todo});
+	}).catch((e)=>{
+		res.status(400).send();
 	});
 
-})
+});
+
+app.delete('/todos/:id', (req,res)=>{
+	var {id} = req.params;
+	if(!ObjectId.isValid(id)){
+		return res.status(404).send();
+	}
+
+	Todo.findByIdAndRemove(id).then((todo)=>{
+		if(!todo){
+			return res.status(404).send();
+		}
+
+		res.send({todo});
+	}).catch((e)=>{
+		return res.status(400).send();
+	});
+
+});
+
+
+
+
 
 module.exports = {app};
 

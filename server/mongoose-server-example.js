@@ -18,32 +18,11 @@ mongoose.connect('mongodb://localhost:27017/TodoApp');
 	}
 });
 */
-//  ---- creating new doucument/schema ----
-// var newTodo = new Todo({
-// 	text: 'Cook dinner'
-// });
-
-// newTodo.save().then((result)=>{
-// 	console.log("saved todo",result );
-// }, (err)=>{
-// 	console.log("Unable to save todo", error);
-// });
-
-// newTodo = new Todo({
-// 	text: 'Do HW',
-// 	completed: false
-// });
-
-// newTodo.save().then((result)=>{
-// 	console.log("saved todo", result);
-// }, (err)=>{
-// 	console.log("Unable to save todo",err);
-// });
 
 
 // ---- Create and insert with validators ----
 
-/*var Todo =mongoose.model('Todo',{
+var Todo =mongoose.model('Todo',{
 	text: {
 		type: String,
 		required: true,
@@ -62,7 +41,32 @@ mongoose.connect('mongodb://localhost:27017/TodoApp');
 		dafault: null
 	}
 }) ;
-*/
+
+// ---- creating new doucument ----
+var newTodo = new Todo({
+	text: 'Cook dinner'
+});
+
+newTodo.save().then((result)=>{
+	console.log("saved todo",result );
+}, (err)=>{
+	console.log("Unable to save todo", error);
+});
+
+newTodo = new Todo({
+	text: 'Do HW',
+	completed: false
+});
+
+newTodo.save().then((result)=>{
+	console.log("saved todo", result);
+}, (err)=>{
+	console.log("Unable to save todo",err);
+});
+
+
+
+
 
 //  Creating user collection schema with validators
 var User = mongoose.model('User',{	
