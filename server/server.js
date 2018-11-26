@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const express = require('express');
 const bodyParser = require('body-parser');
 const {ObjectId} = require('mongodb');
@@ -67,8 +68,31 @@ app.delete('/todos/:id', (req,res)=>{
 
 });
 
+app.patch('/todos/:id', (req,res)=> {
+	var {id} = req.params;
+	var body = _.pick(req.body, ['text', 'completed']); // pick takes an object (req.body in this case) then it takes an array of properties we want to picks
 
+	if(!ObjectId.isValid(id)){
+		return res.status(404).send("invalid object id");
+	}
 
+	if (_.isBoolean(body.completed) && body.completed) {
+		body.completedAt = new Date().getTime();
+	} else {
+		body.completed = false;
+		body.completedAt = null;
+	}
+
+	Todo.findByIdAndUpdate(id, {$set: body}, {new : true}).then((todo) => {		 // new set to true retruns new object
+		if(!todo) {
+			return res.status(404).send("no findy");
+		}
+
+		res.send({todo});
+	}).catch((e)=>{
+		res.status(400).send();
+	}); 
+});	
 
 
 module.exports = {app};

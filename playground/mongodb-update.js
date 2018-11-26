@@ -30,7 +30,7 @@ MongoClient.connect('mongodb://localhost:27017/TodoApp', (err,db)=>{
 	db.collection('Users').findOneAndUpdate({
 		_id: new ObjectID ("5be5a501d4920c0d4005e95e")
 	}, {
-		$set: {
+		$set: {		//mongodb operator to set a value
 			name: "Nishant"
 		},
 
@@ -38,7 +38,7 @@ MongoClient.connect('mongodb://localhost:27017/TodoApp', (err,db)=>{
 			age: 1
 		}
 	}, {
-		returnOriginal: false
+		returnOriginal: false  // to return the new object back
 	}).then((res)=>{
 		console.log(res);
 	});
