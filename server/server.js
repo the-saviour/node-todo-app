@@ -7,9 +7,11 @@ const {ObjectId} = require('mongodb');
 const {mongoose} = require('./db/mongoose.js');
 const {Todo} = require('./models/todo.js');
 const {User} = require('./models/users.js');
+const userController = require('./user-controller.js');
 
 var app= express();
 const port = process.env.PORT;
+
 app.use(bodyParser.json());
 //Handling post request. In this case we use postman to make post request
 app.post('/todos', (req,res)=>{
@@ -71,7 +73,7 @@ app.delete('/todos/:id', (req,res)=>{
 
 app.patch('/todos/:id', (req,res)=> {
 	var {id} = req.params;
-	var body = _.pick(req.body, ['text', 'completed']); // pick takes an object (req.body in this case) then it takes an array of properties we want to picks
+	var body = _.pick(req.body, ['text', 'completed']); // pick takes an object (req.body in this case) then it takes an array of properties we want to pick
 
 	if(!ObjectId.isValid(id)){
 		return res.status(404).send("invalid object id");
@@ -95,6 +97,8 @@ app.patch('/todos/:id', (req,res)=> {
 	}); 
 });	
 
+
+app.post('/users', userController.handleUserPost);
 
 module.exports = {app};
 
