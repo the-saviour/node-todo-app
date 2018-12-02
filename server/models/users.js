@@ -51,11 +51,30 @@ UserSchema.methods.generateAuthToken = function () {
 
 UserSchema.methods.toJSON = function(){	//determines what gets sent back when a mongoose model is converted to json value
 	var user = this;
-	var userObject = user.toObject(); // converts mongoose variable to regular objects with atttributes in documents only 
+	var userObject = user.toObject(); // converts mongoose variable to regular objects with attributes in documents only 
 
 	return _.pick(userObject, ['_id', 'email']);
 };
 
+UserSchema.statics.findByToken = function (token){
+	var User = this;
+	var decoded;
+
+	try {
+		decoded = jwt.verify(token, 'abc123'); //jwt.verify() sends error if secret doesn't match/if data doesn't match 
+	} catch (e) {
+		// return new Promise((resolve,reject){
+		// 	reject(); //A promise that will always be rejected
+		// });
+		return Promise.reject(); // Same as 3 lines of codes above
+	}
+
+	return User.findOne({
+		'_id':decoded._id,
+		'tokens.token': token,
+		'tokens.access': 'auth'
+	});
+}
 
 var User = mongoose.model('User',UserSchema);
 

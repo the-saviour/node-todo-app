@@ -8,6 +8,7 @@ const {mongoose} = require('./db/mongoose.js');
 const {Todo} = require('./models/todo.js');
 const {User} = require('./models/users.js');
 const userController = require('./user-controller.js');
+const {authenticate} = require('./middleware/authenticate.js');
 
 var app= express();
 const port = process.env.PORT;
@@ -99,6 +100,10 @@ app.patch('/todos/:id', (req,res)=> {
 
 
 app.post('/users', userController.handleUserPost);
+
+app.get('/users/me',authenticate, (req,res)=>{			//requires valid x-auth token
+	res.send(req.user);
+});		
 
 module.exports = {app};
 
