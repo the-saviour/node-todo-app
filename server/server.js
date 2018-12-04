@@ -101,6 +101,36 @@ app.patch('/todos/:id', (req,res)=> {
 
 app.post('/users', userController.handleUserPost);
 
+app.post('/users/login', (req,res)=>{
+	var body = _.pick(req.body, ['email', 'password']);
+	User.findByCredentials(body.email, body.password).then((user)=>{
+		user.generateAuthToken().then((token)=>{
+			res.header('x-auth', token).send(user);
+		});	
+		// res.send(user); //no need to check if user exists because we do it in users model
+	}).catch((e)=>{
+		res.status(400).send();
+	});
+
+	// var {email, password} = _.pick(req.body, ['email', 'password']);
+
+	// User.findOne({email}).then((user)=>{
+	// 	if(!user) {
+	// 		return res.status(404).send('no email');
+	// 	}
+	// 	bcrypt.compare(password, user.password, (err,res)=>{
+	// 		if(err){
+	// 			return res.status(404).send('no match');//Promise.reject();
+	// 		}
+
+	// 		res.send("Password correct:");
+	// 	});
+	// }).catch((e)=>{
+	// 	res.status(404).send('no user');
+	// });
+});
+
+
 app.get('/users/me',authenticate, (req,res)=>{			//requires valid x-auth token
 	res.send(req.user);
 });		
