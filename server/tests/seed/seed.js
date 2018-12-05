@@ -47,9 +47,9 @@ const todos = [{
 
 
 const populateTodos = (done)=>{
-	Todo.remove({}).then(()=>{
-		return Todo.insertMany(todos);
-	}).then(()=>done()); //makes sure database is empty before every test
+	Todo.remove({}).then(()=>{			//makes sure database is empty before every test
+		return Todo.insertMany(todos); //makes sure database has only those todos that we want
+	}).then(()=>done()); 
 };
 
 module.exports = {todos, populateTodos, users, populateUsers};

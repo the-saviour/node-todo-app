@@ -111,23 +111,6 @@ app.post('/users/login', (req,res)=>{
 	}).catch((e)=>{
 		res.status(400).send();
 	});
-
-	// var {email, password} = _.pick(req.body, ['email', 'password']);
-
-	// User.findOne({email}).then((user)=>{
-	// 	if(!user) {
-	// 		return res.status(404).send('no email');
-	// 	}
-	// 	bcrypt.compare(password, user.password, (err,res)=>{
-	// 		if(err){
-	// 			return res.status(404).send('no match');//Promise.reject();
-	// 		}
-
-	// 		res.send("Password correct:");
-	// 	});
-	// }).catch((e)=>{
-	// 	res.status(404).send('no user');
-	// });
 });
 
 

@@ -61,9 +61,9 @@ UserSchema.methods.toJSON = function(){	//determines what gets sent back when a 
 UserSchema.statics.findByToken = function (token){
 	var User = this;
 	var decoded;
-
+	//verifying token
 	try {
-		decoded = jwt.verify(token, 'abc123'); //jwt.verify() sends error if secret doesn't match/if data doesn't match 
+		decoded = jwt.verify(token, 'abc123'); //jwt.verify() sends error if secret/data doesn't match and data if secret and data match
 	} catch (e) {
 		// return new Promise((resolve,reject){
 		// 	reject(); //A promise that will always be rejected
