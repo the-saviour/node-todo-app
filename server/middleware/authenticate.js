@@ -8,7 +8,7 @@ var authenticate = (req, res, next) => {   //express middleware to verify token
 		if(!user){
 			return Promise.reject(); //can rewrite res.status(401).send()  
 		}
-
+		
 		req.user = user;
 		req.token = token;
 		next();

@@ -51,6 +51,17 @@ UserSchema.methods.generateAuthToken = function () {
 	});
 };
 
+UserSchema.methods.removeToken = function(token){		//from tokens array delete any object that has token property equal to one passed in function   
+	var user = this;
+	return user.update({
+		$pull: { //$pull is mongodb operator that removes item from array that matches certain criteria
+			tokens: {token
+				// token: token
+			}
+		}
+	})
+};
+
 UserSchema.methods.toJSON = function(){	//determines what gets sent back when a mongoose model is converted to json value
 	var user = this;
 	var userObject = user.toObject(); // converts mongoose variable to regular objects with attributes in documents only 

@@ -118,6 +118,15 @@ app.get('/users/me',authenticate, (req,res)=>{			//requires valid x-auth token
 	res.send(req.user);
 });		
 
+app.delete('/users/me/token',authenticate, (req,res)=>{   
+	req.user.removeToken(req.token).then(()=>{
+		res.status(200).send(); //don't need any data back so send(empty)
+	}, () => {
+		res.status(400).send();
+	});
+});
+
+
 module.exports = {app};
 
 app.listen(port, ()=>{
