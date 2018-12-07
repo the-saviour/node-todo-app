@@ -20,7 +20,11 @@ const users = [{
 	// second user without token
 	_id: userTwoId,
 	email: 'mahat@server.com',
-	password: 'userTwoPass'
+	password: 'userTwoPass',
+	tokens: [{
+		access: 'auth',
+		token: jwt.sign({_id: userTwoId.toHexString(),access : 'auth'}, 'abc123').toString()
+	}]
 	}];
 
 const populateUsers = (done) => {  //insertMany won't work because it is not comaptible with pre/post hooks
@@ -37,12 +41,14 @@ const populateUsers = (done) => {  //insertMany won't work because it is not com
 //dummy todos to test GET request
 const todos = [{
 	_id: new ObjectId(),
-	text: 'First test todo'
+	text: 'First test todo',
+	_creator: userOneId
 }, {
 	_id: new ObjectId(),
 	text: 'Second test todo',
 	completed: true,
-	completedAt: 123
+	completedAt: 123,
+	_creator: userTwoId
 }];
 
 
