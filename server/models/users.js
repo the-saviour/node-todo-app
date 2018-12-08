@@ -42,7 +42,7 @@ var UserSchema = new mongoose.Schema({  // schema allows us to add methods
 UserSchema.methods.generateAuthToken = function () {
 	var user = this;	//the user that calls the function
 	var access = 'auth';
-	var token = jwt.sign({_id: user._id.toHexString(),access}, 'abc123').toString();
+	var token = jwt.sign({_id: user._id.toHexString(),access}, process.env.JWT_SECRET).toString();
 
 	user.tokens = user.tokens.concat([{access,token}]);
 
@@ -74,7 +74,7 @@ UserSchema.statics.findByToken = function (token){
 	var decoded;
 	//verifying token
 	try {
-		decoded = jwt.verify(token, 'abc123'); //jwt.verify() sends error if secret/data doesn't match and data if secret and data match
+		decoded = jwt.verify(token, process.env.JWT_SECRET); //jwt.verify() sends error if secret/data doesn't match and data if secret and data match
 	} catch (e) {
 		// return new Promise((resolve,reject){
 		// 	reject(); //A promise that will always be rejected
